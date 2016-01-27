@@ -7,7 +7,7 @@ var Instance = function (options) {
   this.sites = options.sites;
 };
 
-Instance.prototype.getTemplatesPath = function (domain) {
+var findSiteByDomain = function (domain) {
   var site = findSite.bind(this)(function (site) {
     return site.domain == domain;
   });
@@ -16,19 +16,19 @@ Instance.prototype.getTemplatesPath = function (domain) {
     return '';
   }
 
-  return site.paths.templates;
+  return site;
+};
+
+Instance.prototype.getAssetsPath = function (domain) {
+  return findSiteByDomain.bind(this)(domain).paths.assets;
+};
+
+Instance.prototype.getTemplatesPath = function (domain) {
+  return findSiteByDomain.bind(this)(domain).paths.templates;
 };
 
 Instance.prototype.getPluginsPath = function (domain) {
-  var site = findSite.bind(this)(function (site) {
-    return site.domain == domain;
-  });
-
-  if(!site) {
-    return null;
-  }
-
-  return site.paths.plugins;
+  return findSiteByDomain.bind(this)(domain).paths.plugins;
 };
 
 Instance.prototype.getContentMaps = function (callback) {

@@ -12,6 +12,7 @@ var Site = function (options) {
 
   this.paths = {
     base: options.baseDir,
+    assets: path.resolve(options.baseDir, 'assets'),
     config: path.resolve(options.baseDir, 'config'),
     plugins: path.resolve(options.baseDir, 'plugins'),
     templates: path.resolve(options.baseDir, 'templates')
