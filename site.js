@@ -1,7 +1,8 @@
 var fs = require('fs');
 var path = require('path');
-var async = require('async');
-var glob = require('glob');
+
+var configLoader = require('./site/config-loader');
+var loadTemplateSources = require('./site/load-template-sources');
 
 var Site = function (options) {
   options = options || {};
@@ -17,18 +18,20 @@ var Site = function (options) {
   };
 };
 
-
-
 Site.prototype.getContentMaps = function (callback) {
-  return require('./site/config-loader').bind(this)('content.d', callback);
+  return configLoader.bind(this)('content.d', callback);
 };
 
 Site.prototype.getRouteMaps = function (callback) {
-  return require('./site/config-loader').bind(this)('routes.d', callback);
+  return configLoader.bind(this)('routes.d', callback);
 };
 
 Site.prototype.getRewriteMaps = function (callback) {
-  return require('./site/config-loader').bind(this)('rewrites.d', callback);
+  return configLoader.bind(this)('rewrites.d', callback);
+};
+
+Site.prototype.getTemplateSources = function (callback) {
+  return loadTemplateSources.bind(this)(callback);
 };
 
 module.exports = Site;
