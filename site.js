@@ -3,6 +3,7 @@ var path = require('path');
 
 var configLoader = require('./site/config-loader');
 var loadTemplateSources = require('./site/load-template-sources');
+var loadPlugins = require('./site/load-plugins');
 
 var Site = function (options) {
   options = options || {};
@@ -33,6 +34,10 @@ Site.prototype.getRewriteMaps = function (callback) {
 
 Site.prototype.getTemplateSources = function (callback) {
   return loadTemplateSources.bind(this)(callback);
+};
+
+Site.prototype.getPlugins = function (callback) {
+  return loadPlugins.bind(this)(callback);
 };
 
 module.exports = Site;

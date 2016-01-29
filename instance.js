@@ -13,22 +13,42 @@ var findSiteByDomain = function (domain) {
   });
 
   if(!site) {
-    return '';
+    throw new Error('Attempted to find nonexistent site ' + domain);
   }
 
   return site;
 };
 
+Instance.prototype.siteExists = function (domain) {
+  var siteExists = true;
+  
+  try {
+    findSiteByDomain.bind(this)(domain);
+  } catch (e) {
+    return false;
+  }
+
+  return siteExists;
+};
+
 Instance.prototype.getAssetsPath = function (domain) {
-  return findSiteByDomain.bind(this)(domain).paths.assets;
+  if (findSiteByDomain.bind(this)(domain)) {
+    return findSiteByDomain.bind(this)(domain).paths.assets;
+  }
+
 };
 
 Instance.prototype.getTemplatesPath = function (domain) {
-  return findSiteByDomain.bind(this)(domain).paths.templates;
+  if (findSiteByDomain.bind(this)(domain)) {
+    return findSiteByDomain.bind(this)(domain).paths.templates;
+  }
+
 };
 
 Instance.prototype.getPluginsPath = function (domain) {
-  return findSiteByDomain.bind(this)(domain).paths.plugins;
+  if (findSiteByDomain.bind(this)(domain)) {
+    return findSiteByDomain.bind(this)(domain).paths.plugins;
+  }
 };
 
 Instance.prototype.getContentMaps = function (callback) {
